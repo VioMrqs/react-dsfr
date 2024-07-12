@@ -24,7 +24,9 @@ export type TableProps = {
     /** Default: false */
     bottomCaption?: boolean;
     /** Default: false */
-    isSelectable: boolean;
+    isSelectable?: boolean;
+    /** Default: false */
+    isFirstDataRowHeader?: boolean;
     style?: CSSProperties;
     colorVariant?: TableProps.ColorVariant;
 };
@@ -54,6 +56,7 @@ export const Table = memo(
             noCaption = false,
             bottomCaption = false,
             isSelectable = false,
+            isFirstDataRowHeader = false,
             colorVariant,
             className,
             style,
@@ -93,18 +96,25 @@ export const Table = memo(
                         {headers !== undefined && (
                             <thead>
                                 <tr>
-                                    {isSelectable && (
+                                    {(isSelectable || isFirstDataRowHeader) && (
                                         <th className={fr.cx("fr-cell--fixed")} role="columnheader">
-                                            <span className={fr.cx("fr-sr-only")}>
-                                                Sélectionner
-                                            </span>
+                                            {isSelectable && (
+                                                <span className={fr.cx("fr-sr-only")}>
+                                                    Sélectionner
+                                                </span>
+                                            )}
+                                            {isFirstDataRowHeader && headers[0]}
                                         </th>
                                     )}
-                                    {headers.map((header, i) => (
-                                        <th key={i} scope="col">
-                                            {header}
-                                        </th>
-                                    ))}
+                                    {headers.map((header, i) =>
+                                        isFirstDataRowHeader && i === 0 ? (
+                                            <></>
+                                        ) : (
+                                            <th key={i} scope="col">
+                                                {header}
+                                            </th>
+                                        )
+                                    )}
                                 </tr>
                             </thead>
                         )}
@@ -131,11 +141,16 @@ export const Table = memo(
                                                     Sélectionner la ligne {i + 1}
                                                 </label>
                                             </div>
+                                            {isFirstDataRowHeader && row[0]}
                                         </th>
                                     )}
-                                    {row.map((col, j) => (
-                                        <td key={j}>{col}</td>
-                                    ))}
+                                    {row.map((col, j) =>
+                                        isFirstDataRowHeader && j === 0 ? (
+                                            <></>
+                                        ) : (
+                                            <td key={j}>{col}</td>
+                                        )
+                                    )}
                                 </tr>
                             ))}
                         </tbody>

@@ -197,3 +197,21 @@ export const TableWithSelectableRow = getStory({
     ],
     "isSelectable": true
 });
+
+export const TableWithSelectableRowHeader = getStory({
+    "caption": "Titre du tableau",
+    "headers": ["td", "titre"],
+    "data": [
+        [
+            "Lorem ipsum dolor sit amet consectetur adipisicin",
+            "Lorem ipsum dolor sit amet consectetur"
+        ],
+        ["Lorem ipsum d", "Lorem ipsu"],
+        [
+            "Lorem ipsum dolor sit amet consectetur adipisicin",
+            "Lorem ipsum dolor sit amet consectetur"
+        ],
+        ["Lorem ipsum d", "Lorem ipsu"]
+    ],
+    "isFirstDataRowHeader": true
+});
