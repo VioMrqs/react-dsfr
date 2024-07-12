@@ -23,6 +23,8 @@ export type TableProps = {
     noCaption?: boolean;
     /** Default: false */
     bottomCaption?: boolean;
+    /** Default: false */
+    isSelectable: boolean;
     style?: CSSProperties;
     colorVariant?: TableProps.ColorVariant;
 };
@@ -51,6 +53,7 @@ export const Table = memo(
             fixed = false,
             noCaption = false,
             bottomCaption = false,
+            isSelectable = false,
             colorVariant,
             className,
             style,
@@ -84,29 +87,60 @@ export const Table = memo(
                     className
                 )}
             >
-                <table>
-                    {caption !== undefined && <caption>{caption}</caption>}
-                    {headers !== undefined && (
-                        <thead>
-                            <tr>
-                                {headers.map((header, i) => (
-                                    <th key={i} scope="col">
-                                        {header}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                    )}
-                    <tbody>
-                        {data.map((row, i) => (
-                            <tr key={i}>
-                                {row.map((col, j) => (
-                                    <td key={j}>{col}</td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className={fr.cx("fr-table__content")}>
+                    <table>
+                        {caption !== undefined && <caption>{caption}</caption>}
+                        {headers !== undefined && (
+                            <thead>
+                                <tr>
+                                    {isSelectable && (
+                                        <th className={fr.cx("fr-cell--fixed")} role="columnheader">
+                                            <span className={fr.cx("fr-sr-only")}>
+                                                Sélectionner
+                                            </span>
+                                        </th>
+                                    )}
+                                    {headers.map((header, i) => (
+                                        <th key={i} scope="col">
+                                            {header}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                        )}
+                        <tbody>
+                            {data.map((row, i) => (
+                                <tr key={i}>
+                                    {isSelectable && (
+                                        <th className={fr.cx("fr-cell--fixed")} scope="row">
+                                            <div
+                                                className={fr.cx(
+                                                    "fr-checkbox-group",
+                                                    "fr-checkbox-group--sm"
+                                                )}
+                                            >
+                                                <input
+                                                    name="row-select"
+                                                    id={`table-select-checkbox-7748--${i}`}
+                                                    type="checkbox"
+                                                />
+                                                <label
+                                                    className={fr.cx("fr-label")}
+                                                    htmlFor={`table-select-checkbox-7748--${i}`}
+                                                >
+                                                    Sélectionner la ligne {i + 1}
+                                                </label>
+                                            </div>
+                                        </th>
+                                    )}
+                                    {row.map((col, j) => (
+                                        <td key={j}>{col}</td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         );
     })

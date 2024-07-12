@@ -37,6 +37,10 @@ const { meta, getStory } = getStoryFactory({
             "description": "Move caption to bottom",
             "type": { "name": "boolean" }
         },
+        "isSelectable": {
+            "description": "Make row selectable",
+            "type": { "name": "boolean" }
+        },
         "colorVariant": {
             "options": (() => {
                 const options = [
@@ -174,4 +178,22 @@ export const TableWithColorVariant = getStory({
         ],
         ["Lorem ipsum d", "Lorem ipsu"]
     ]
+});
+
+export const TableWithSelectableRow = getStory({
+    "caption": "Titre du tableau",
+    "headers": ["td", "titre"],
+    "data": [
+        [
+            "Lorem ipsum dolor sit amet consectetur adipisicin",
+            "Lorem ipsum dolor sit amet consectetur"
+        ],
+        ["Lorem ipsum d", "Lorem ipsu"],
+        [
+            "Lorem ipsum dolor sit amet consectetur adipisicin",
+            "Lorem ipsum dolor sit amet consectetur"
+        ],
+        ["Lorem ipsum d", "Lorem ipsu"]
+    ],
+    "isSelectable": true
 });
